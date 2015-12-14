@@ -1,0 +1,5 @@
+name: monitor
+summary: Basic monitoring interface
+version: 1
+repo: https://git.launchpad.net/~someone/charms/somewhere/monitoring
+
