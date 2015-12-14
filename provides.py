@@ -25,6 +25,5 @@ class MonitoringProvides(RelationBase):
     def configure(self, port):
         relation_info = {
             'hostname': hookenv.unit_get('private-address'),
-            'port': port,
         }
         self.set_remote(**relation_info)
