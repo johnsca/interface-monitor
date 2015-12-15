@@ -22,7 +22,7 @@ class MonitoringProvides(RelationBase):
     # call this method when passed into methods decorated with
     # @when('{relation}.available')
     # to configure the relation data
-    def configure(self, port):
+    def configure(self):
         relation_info = {
             'hostname': hookenv.unit_get('private-address'),
         }
