@@ -1,27 +1,27 @@
 from charms.reactive import scopes
 from charms.reactive import RelationBase
-from charmhelpers.core import hookenv
 from charms.reactive import hook
+
 
 class MonitoringRequires(RelationBase):
     scope = scopes.UNIT
 
-    @hook('{requires:monitor}-relation-{joined,changed}')
-    def changed(self):
+    @hook('{requires:monitor}-relation-joined')
+    def joined(self):
         self.set_state('{relation_name}.available')
 
-    @hook('{requires:monitor}-relation-{departed,broken}')
-    def broken(self):
+    @hook('{requires:monitor}-relation-departed')
+    def departed(self):
         self.remove_state('{relation_name}.available')
 
-    def endpoint(self):
+    def endpoints(self):
         """
-        Returns the monitoring endpoint.
+        Returns a list of monitoring hosts.
         """
-        service = hookenv.remote_unit()
-        if service:
-            conv = self.conversation(scope=service)
-            pa = conv.get_remote('hostname') or conv.get_remote('private-address')
-            return pa
-        else:
-            return None
+        return [conv.get_remote('private-address') for conv in self.conversations()]
+
+    def port(self):
+        """
+        Returns the port upon which the monitoring hosts are listening.
+        """
+        return 8649

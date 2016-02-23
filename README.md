@@ -8,7 +8,7 @@ provides monitoring facilities (eg Ganglia).
 
 ## Requires
 
-Charms in need of an acces to a monitoring service require this interface.
+Charms in need of an access to a monitoring service require this interface.
 
 This interface layer will set the following state, as appropriate:
 
@@ -30,10 +30,10 @@ def setup_monitoring(ganglia):
 
 A charm providing monitoring services should implement this interface.
 
-As soon as a ``monitor'' relation is established the '{relation_name}.available' state is set.
-The service provider can use the configure method to populate the 'hostname' relation data variable.
-If the 'hostname' data variable is not set the consumer of the monitor service will fall back to use the
-'private_address' of the relation.
+As soon as a `monitor` relation is established the `{relation_name}.available` state is set.
+The service provider can use the configure method to populate the `hostname` relation data variable.
+If the `hostname` data variable is not set the consumer of the monitor service will fall back to use the
+`private_address` of the relation.
 
 # Contact Information
 
