@@ -24,4 +24,4 @@ class MonitoringRequires(RelationBase):
         """
         Returns the port upon which the monitoring hosts are listening.
         """
-        return 8649
+        return 8649  # currently hard-coded in the Ganglia charm :(
