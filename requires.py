@@ -18,7 +18,8 @@ class MonitoringRequires(RelationBase):
         """
         Returns a list of monitoring hosts.
         """
-        return [conv.get_remote('private-address') for conv in self.conversations()]
+        return [conv.get_remote('private-address')
+                for conv in self.conversations()]
 
     def port(self):
         """
