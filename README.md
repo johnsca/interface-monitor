@@ -6,31 +6,40 @@ provides monitoring facilities (currently only Ganglia).
 
 # Usage
 
-## Requires
+## Reporting Metrics
 
-Charms in need of an access to a monitoring service require this interface.
+Charms that gather and report metrics to a monitoring service must `provide`
+a relation using the `monitor` interface and add `interface:monitor` to the
+`includes` section of their `layer.yaml` file.
 
 This interface layer will set the following state, as appropriate:
 
-  * `{relation_name}.available`   The relation to the monitoring service has been
+  * `{relation_name}.joined` The relation to the monitoring service has been
     established. The charm can retrieve information about the monitoring service via:
-    * `endpoints()`  Returns a list of monitoring hosts
-    * `port()`  Returns the port the monitoring service is listening on
 
-For example, let's say that a charm wants to use the monitoring service. The charm should
-specify the relation through which the monitoring service is becoming available, in this case
-we call this relation "ganglia".
+    * `endpoints()`  Returns a list of dicts containing info about the
+      monitoring services.  Each dict will contain a `host` address and a `port`.
+
+An example use of this would be:
 
 ```python
 @when('ganglia.available')
 def setup_monitoring(ganglia):
-    for host in ganglia.endpoints():
-        register_monitor(host, ganglia.port())
+    register_monitor(ganglia.endpoints())
 ```
 
-## Provides
+## Aggregating Metrics
 
-The providing side of this relation currently does not explicitly send any data.
+Charms that act as a monitoring service which aggregate and provide insight into
+collected metrics must `require` a relation using the `monitor` interface and
+add `interface:monitor` to the `includes` section of their `layer.yaml` file.
+
+This interface layer will set the following states, as appropriate:
+
+  * `{relation_name}.joined` One or more services have connected to send metrics
+    The charm can then get information about the the connected services via:
+
+    * `endpoints()` Returns a list of addresses for the connected services
 
 # Contact Information
 
