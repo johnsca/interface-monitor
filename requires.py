@@ -8,21 +8,15 @@ class MonitoringRequires(RelationBase):
 
     @hook('{requires:monitor}-relation-joined')
     def joined(self):
-        self.set_state('{relation_name}.available')
+        self.set_state('{relation_name}.joined')
 
     @hook('{requires:monitor}-relation-departed')
     def departed(self):
-        self.remove_state('{relation_name}.available')
+        self.remove_state('{relation_name}.joined')
 
     def endpoints(self):
         """
-        Returns a list of monitoring hosts.
+        Returns a list of host addresses.
         """
         return [conv.get_remote('private-address')
                 for conv in self.conversations()]
-
-    def port(self):
-        """
-        Returns the port upon which the monitoring hosts are listening.
-        """
-        return 8649  # currently hard-coded in the Ganglia charm :(
